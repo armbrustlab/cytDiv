@@ -1,10 +1,10 @@
 Package: cytoDiv
-Version: 0.5.4
-Date: 2012-01-17
+Version: 0.9.0
+Date: 2013-12-3
 Title: Cytometric diversity indices
-Author: Francois Ribalet <ribalet@u.washington.edu>
+Author: Sophie Clayton <sclayton@uw.edu>; Francois Ribalet <ribalet@u.washington.edu>
 Maintainer: Francois Ribalet <ribalet@u.washington.edu>
-Depends: R (>= 2.13.1), GenKern, plotrix
-Description: Calculates ecological diversity indices for a microbial community 
+Depends: R (>= 3.0.0)
+Description: Calculates cytometric diversity indices for a microbial community 
 License:  GPL (>= 2)
 URL: http://seaflow.ocean.washington.edu

@@ -2,19 +2,16 @@
 \alias{cytoDiv}
 \title{Cytometric Diversity Indices}
 \description{
-Calculate the various cytometric diversity indices described in Li, W. 1997 Cytometric diversity in marine ultraphytoplankton. Limnology and Oceanography 42: 874 - 880. The proportional abundance of the ith category of organism is calculated using the KernSur function from GenKern package, which computes bivariate kernel density estimates.
+Calculate the various cytometric diversity indices described in Li, W. 1997 Cytometric diversity in marine ultraphytoplankton. Limnology and Oceanography 42: 874 - 880.
 }
 \usage{
-cytoDiv(df, x.var="fsc_small", y.var="chl_small", Ncat = 16, Nbit = 16, do.plot=FALSE, ...)
+cytoDiv(df, para=c("fsc_small", "chl_small", "pe", "fsc_perp"), Ncat = 16, log=TRUE, do.plot=FALSE)
 }
 \arguments{
-\item{df}{a flow cytometry file converted into a dataframe.}
-\item{x.var}{name of the variable x. Default is "fsc_small" from SeaFlow instrument}
-\item{y.var}{name of the variable y. Default is "chl_small" from SeaFlow instrument}
+\item{df}{flow cytometry data converted into a dataframe.}
+\item{para}{name(s) or indice(s) of the parameters . Default is c("fsc_small", "chl_small", "pe", "fsc_perp") from SeaFlow instrument. IMPORTANT: Max number of parameters limited to 4}
 \item{Ncat}{Number of categories per variable. Default is 16}
-\item{Nbit}{Number of the bit resolution the Analog-to-Digital Converter. Default is 16, i.e values range from 0 to 2^16}
-\item{do.plot}{Option to plot the probability distribution of the bivariate data in 3D}
-\item{...}{additional arguments to be passed to the KernSur function from the GenKern package}
+\item{do.plot}{Option to plot the probability distribution of the bivariate data. Only for 1 and 2 parameters}
 }
 \value{
 A data frame that contains the Richness index N0 (number of categories), the Shannon-Wiener Diversity index H', the reciprocal of Simpson's index N2, the Simpson's Index of Diversity D and the Evenness index J'.
@@ -35,15 +32,17 @@ df <- read.csv(fcs.df)
 head(df)
 
 ## plotting bivariate plot
-rainbow.cols <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow","#FF7F00", "red", "#7F0000"))
-plot(df[,2], df[,3], col= densCols(df[,2], df[,3], colramp = rainbow.cols))
+cols <- colorRampPalette(c("blue4","royalblue4","deepskyblue3", "seagreen3", "yellow", "orangered2","darkred")) 
+
+par(mfrow=c(3,1))
+plot(df[,2], df[,3], col= densCols(df[,2], df[,3], colramp = cols))
 
 # Remove the Internal Standard and noise before calculating the Cytometric Diversity Indices
 cleaned.df <- subset(df, df[,4]  < df[,3] + 13000 & df[,3] > 5000)
-plot(cleaned.df[,2], cleaned.df[,3], col= densCols(cleaned.df[,2], cleaned.df[,3], colramp = rainbow.cols))
+plot(cleaned.df[,2], cleaned.df[,3], col= densCols(cleaned.df[,2], cleaned.df[,3], colramp = cols))
 
 #Calculating the Cytometric Diversity Indices
-div <- cytoDiv(cleaned.df, x.var="FSC", y.var="F692.4", do.plot=TRUE)
+div <- cytoDiv(cleaned.df, para=c("FSC","F692.4"), log=FALSE, do.plot=T)
 
 print(div)
 
