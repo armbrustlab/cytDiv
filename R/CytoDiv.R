@@ -1,5 +1,7 @@
 cytoDiv <- function(df, para, Ncat, log=TRUE){
         
+        require(plyr)
+        
         # bin the data
         xx <- data.frame(apply(as.matrix(df[,para]),2,function(x) x%/%(10^3.5/Ncat)))
         
