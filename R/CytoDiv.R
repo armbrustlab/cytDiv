@@ -16,7 +16,7 @@ cytoDiv <- function(df, para, Ncat, log=TRUE){
         J = log(N1)/log(N0) # Evenness
         
         # output
-        indices <- data.frame(cbind(N0, H, J))
+        indices <- data.frame(cbind(N0, N1, H, J))
         return(indices)
         
         
